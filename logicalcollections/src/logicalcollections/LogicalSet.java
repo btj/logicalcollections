@@ -9,22 +9,27 @@ import java.util.function.Predicate;
 public class LogicalSet<T> {
 	
 	private Set<T> elements = new HashSet<T>();
-	private List<Predicate<T>> constraints = new ArrayList<Predicate<T>>();
+	private List<T> elementsList = new ArrayList<T>();
+	private List<Predicate<T>> predicates = new ArrayList<Predicate<T>>();
 	
 	public boolean contains(T element) {
 		if (!elements.contains(element)) {
 			elements.add(element);
-			for (var predicate : constraints)
-				if (!predicate.test(element))
+			elementsList.add(element);
+			int predicatesCount = predicates.size();
+			for (int i = 0; i < predicatesCount; i++)
+				if (!predicates.get(i).test(element))
 					throw new AssertionError("Logical set constraint violated");
 		}
 		return true;
 	}
 	
 	public boolean allMatch(Predicate<T> predicate) {
-		if (!elements.parallelStream().allMatch(predicate))
-			throw new AssertionError("Logical set constraint violated");
-		constraints.add(predicate);
+		predicates.add(predicate);
+		int elementsCount = elementsList.size();
+		for (int i = 0; i < elementsCount; i++)
+			if (!predicate.test(elementsList.get(i)))
+				throw new AssertionError("Logical set constraint violated");
 		return true;
 	}
 	
@@ -32,7 +37,8 @@ public class LogicalSet<T> {
 		LogicalSet<T> set = new LogicalSet<T>();
 		if (!predicate.test(set))
 			throw new AssertionError("Logical set constraint violated");
-		return set.elements;
+		var elements = set.elements;
+		set.elements = null;
+		return elements;
 	}
-
 }
