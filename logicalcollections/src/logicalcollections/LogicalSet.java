@@ -24,6 +24,12 @@ public class LogicalSet<T> {
 		return true;
 	}
 	
+	public boolean containsAll(Iterable<T> objects) {
+		for (var object : objects)
+			contains(object);
+		return true;
+	}
+	
 	public boolean allMatch(Predicate<T> predicate) {
 		predicates.add(predicate);
 		int elementsCount = elementsList.size();
@@ -40,5 +46,11 @@ public class LogicalSet<T> {
 		var elements = set.elements;
 		set.elements = null;
 		return elements;
+	}
+	
+	public static <T> Set<T> plus(Set<T> set, T element) {
+		HashSet<T> result = new HashSet(set);
+		result.add(element);
+		return result;
 	}
 }

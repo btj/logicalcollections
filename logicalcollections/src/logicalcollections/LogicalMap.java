@@ -57,6 +57,20 @@ public class LogicalMap<K, V> {
 		return true;
 	}
 	
+	/**
+	 * Returns a map that satisfies the given predicate.
+	 * Throws an AssertionError if it fails to find such a map.
+	 * This method may in some cases fail to find a map that satisfies the given predicate, even if one exists.
+	 * However, if both the given predicate and all predicates given as arguments in calls of
+	 * {@code keySet().allMatch} on the given predicate's argument are "monotonic", then this method
+	 * is guaranteed to find and return a map that satisfies the given predicate, if one exists.
+	 * A predicate is monotonic if, whenever all {@code containsKey}, {@code containsEntry}, and
+	 * {@code keySet().allMatch} calls it performs on the given predicate's argument return {@code true} in more cases,
+	 * the predicate returns {@code true} in more cases.
+	 * 
+	 * @pre | predicate != null
+	 * @post | result != null // && predicate.test(result)
+	 */
 	public static <K, V> Map<K, V> matching(Predicate<LogicalMap<K, V>> predicate) {
 		var map = new LogicalMap<K, V>();
 		if (!predicate.test(map))
@@ -66,13 +80,24 @@ public class LogicalMap<K, V> {
 		return result;
 	}
 	
+	/**
+	 * Returns whether all of {@code map2}'s keys, except for {@code keys},
+	 * are in {@code map1} and map to the same value.
+	 * 
+	 * @pre | map1 != null
+	 * @pre | map2 != null
+	 * @pre | keys != null
+	 * @post
+	 *    | result == map2.keySet().stream().allMatch(key ->
+	 *    |     Set.of(keys).contains(key) || map1.containsKey(key) && Objects.equals(map1.get(key), map2.get(key)))
+	 */
 	public static <K, V> boolean extendsExcept(Map<K, V> map1, Map<K, V> map2, K... keys) {
 		HashSet<K> keysSet = new HashSet<>(Arrays.asList(keys));
 		for (K key : map2.keySet()) {
 			if (!keysSet.contains(key)) {
 				if (!map1.containsKey(key))
 					return false;
-				if (!map1.get(key).equals(map2.get(key)))
+				if (!Objects.equals(map1.get(key), map2.get(key)))
 					return false;
 			}
 		}
