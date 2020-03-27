@@ -49,8 +49,14 @@ public class LogicalSet<T> {
 	}
 	
 	public static <T> Set<T> plus(Set<T> set, T element) {
-		HashSet<T> result = new HashSet(set);
+		HashSet<T> result = new HashSet<T>(set);
 		result.add(element);
+		return result;
+	}
+	
+	public static <T> Set<T> minus(Set<T> set, T element) {
+		HashSet<T> result = new HashSet<T>(set);
+		result.remove(element);
 		return result;
 	}
 }
