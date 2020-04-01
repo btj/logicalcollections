@@ -39,6 +39,12 @@ public class LogicalSet<T> {
 		return true;
 	}
 	
+	/**
+	 * Returns a set that satisfies the given predicate.
+	 * 
+	 * @pre | predicate != null
+	 * @post | result != null
+	 */
 	public static <T> Set<T> matching(Predicate<LogicalSet<T> > predicate) {
 		LogicalSet<T> set = new LogicalSet<T>();
 		if (!predicate.test(set))
@@ -48,12 +54,32 @@ public class LogicalSet<T> {
 		return elements;
 	}
 	
+	/**
+	 * Returns the set obtained by adding the given element to the given set.
+	 * 
+	 * @pre | set != null
+	 * @inspects | set
+	 * @creates | result
+	 * @post | result.containsAll(set)
+	 * @post | result.contains(element)
+	 * @post | result.stream().allMatch(e -> set.contains(e) || e == element)
+	 */
 	public static <T> Set<T> plus(Set<T> set, T element) {
 		HashSet<T> result = new HashSet<T>(set);
 		result.add(element);
 		return result;
 	}
 	
+	/**
+	 * Returns the set obtained by removing the given element from the given set.
+	 * 
+	 * @pre | set != null
+	 * @inspects | set
+	 * @creates | result
+	 * @post | set.stream().allMatch(e -> e == element || result.contains(e))
+	 * @post | set.containsAll(result)
+	 * @post | !result.contains(element)
+	 */
 	public static <T> Set<T> minus(Set<T> set, T element) {
 		HashSet<T> result = new HashSet<T>(set);
 		result.remove(element);
