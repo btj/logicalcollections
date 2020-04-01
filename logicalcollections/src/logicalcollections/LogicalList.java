@@ -12,6 +12,12 @@ public class LogicalList {
 		return result;
 	}
 
+	public static <T> List<T> plusAt(List<T> list, int index, T element) {
+		List<T> result = new ArrayList<T>(list);
+		result.add(index, element);
+		return result;
+	}
+
 	public static <T> List<T> minus(List<T> list, T element) {
 		List<T> result = new ArrayList<T>(list);
 		result.remove(element);
