@@ -3,7 +3,6 @@ package logicalcollections;
 import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
-import java.util.stream.*;
 
 public class LogicalMap<K, V> {
 	
@@ -91,6 +90,7 @@ public class LogicalMap<K, V> {
 	 *    | result == map2.keySet().stream().allMatch(key ->
 	 *    |     Set.of(keys).contains(key) || map1.containsKey(key) && Objects.equals(map1.get(key), map2.get(key)))
 	 */
+	@SafeVarargs
 	public static <K, V> boolean extendsExcept(Map<K, V> map1, Map<K, V> map2, K... keys) {
 		HashSet<K> keysSet = new HashSet<>(Arrays.asList(keys));
 		for (K key : map2.keySet()) {
@@ -104,6 +104,7 @@ public class LogicalMap<K, V> {
 		return true;
 	}
 	
+	@SafeVarargs
 	public static <K, V> boolean equalsExcept(Map<K, V> map1, Map<K, V> map2, K... keys) {
 		return extendsExcept(map1, map2, keys) && extendsExcept(map2, map1, keys);
 	}
