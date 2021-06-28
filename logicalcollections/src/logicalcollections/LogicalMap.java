@@ -113,4 +113,24 @@ public class LogicalMap<K, V> {
 		return map.keySet().stream().allMatch(k -> predicate.test(k, map.get(k)));
 	}
 	
+	/**
+	 * Returns a map that contains the entries of the given map
+	 * as well as the given entry.
+	 */
+	public static <K, V> Map<K, V> plus(Map<K, V> map, K key, V value) {
+		var result = new HashMap<>(map);
+		result.put(key, value);
+		return result;
+	}
+	
+	/**
+	 * Returns a map that contains the entries of the given map
+	 * except for the entry with the given key.
+	 */
+	public static <K, V> Map<K, V> minus(Map<K, V> map, K key) {
+		var result = new HashMap<>(map);
+		result.remove(key);
+		return result;
+	}
+	
 }
