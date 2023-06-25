@@ -68,6 +68,12 @@ public class LogicalList {
 		result.remove(element);
 		return result;
 	}
+
+	public static <T> List<T> minusAt(List<T> list, int index) {
+		List<T> result = new ArrayList<T>(list);
+		result.remove(index);
+		return result;
+	}
 	
 	/**
 	 * Returns whether no two elements of the given list are equal.
