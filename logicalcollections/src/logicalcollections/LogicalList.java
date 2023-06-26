@@ -69,18 +69,18 @@ public class LogicalList {
 		return result;
 	}
 
-	/**
+    	/**
      	* Returns the list obtained by removing the element
      	* at the given index from the given list.
      	* 
      	* @inspects | list
      	* @creates | result
      	* @pre | list != null
-     	* @pre | index >= 0 && index < list.size();
+     	* @pre | index >= 0 && index < list.size()
      	* @post | result != null
-     	* @post | result.size() = list.size() - 1
-     	* @post | result.sublist(0, index).equals(list.sublist(0, index))
-     	*       |   && result.sublist(index, result.size()).equals(list.sublist(index+1, list.size()))
+     	* @post | result.size() == list.size() - 1
+     	* @post | result.subList(0, index).equals(list.subList(0, index))
+     	*       |   && result.subList(index, result.size()).equals(list.subList(index+1, list.size()))
      	*/
     	public static <T> List<T> minusAt(List<T> list, int index) {
 	        List<T> result = new ArrayList<T>(list);
