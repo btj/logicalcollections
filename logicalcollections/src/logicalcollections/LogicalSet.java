@@ -72,13 +72,6 @@ public class LogicalSet<T> {
 	
 	/**
 	 * Returns the set obtained by removing the given element from the given set.
-	 * 
-	 * @pre | set != null
-	 * @inspects | set
-	 * @creates | result
-	 * @post | set.stream().allMatch(e -> e == element || result.contains(e))
-	 * @post | set.containsAll(result)
-	 * @post | !result.contains(element)
 	 */
 	public static <T> Set<T> minus(Set<T> set, T element) {
 		HashSet<T> result = new HashSet<T>(set);
